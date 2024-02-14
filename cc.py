@@ -18,6 +18,8 @@
 from typing import Optional
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai  # type: ignore
+from google.cloud import storage
+
 
 # TODO(developer): Uncomment these variables before running the sample.
 # project_id = "YOUR_PROJECT_ID"
@@ -27,6 +29,7 @@ from google.cloud import documentai  # type: ignore
 # mime_type = "application/pdf" # Refer to https://cloud.google.com/document-ai/docs/file-types for supported file types
 # field_mask = "text,entities,pages.pageNumber"  # Optional. The fields to return in the Document object.
 # processor_version_id = "YOUR_PROCESSOR_VERSION_ID" # Optional. Processor version to use
+
 
 
 def process_document_sample(
@@ -57,6 +60,7 @@ def process_document_sample(
     # Read the file into memory
     with open(file_path, "rb") as image:
         image_content = image.read()
+ 
 
     # Load binary data
     raw_document = documentai.RawDocument(content=image_content, mime_type=mime_type)
@@ -91,17 +95,28 @@ def process_document_sample(
     print(doc_1[1].mention_id," ",doc_1[1].type_, " ", doc_1[1].mention_text)
     print(doc_1[2].mention_id," ",doc_1[2].type_, " ", doc_1[2].mention_text)
 
+    return {
+        doc_1[0].type_ : doc_1[0].mention_text,
+        doc_1[1].type_ : doc_1[1].mention_text,
+        doc_1[2].type_ : doc_1[2].mention_text
+    }
 
-# [END documentai_process_document_processor_version]
-# [END documentai_process_document]
 
-process_document_sample(
-  project_id="659531251163",
-  location="us",
-  processor_id="33b259122f65c043",
-  file_path="https://img.lalr.co/cms/2020/11/29204358/720.jpg",
-  mime_type="image/jpeg"
-)
+# # # # Reemplaza con tu información
+# bucket_nombre = 'documentos-ocr-lucho'
+# objeto_nombre = 'img.jpeg'
+# destino_local = '/home/tomas071922/API-GCP-DNI-Extract/Img/img.jpeg'
+
+# # # Descarga la imagen desde el bucket
+# descargar_imagen(bucket_nombre, objeto_nombre, destino_local)
+
+# process_document_sample(
+#   project_id="659531251163",
+#   location="us",
+#   processor_id="33b259122f65c043",
+#   file_path="/home/tomas071922/API-GCP-DNI-Extract/Img/img.jpeg",
+#   mime_type="image/jpeg"
+# )
 
 
 
