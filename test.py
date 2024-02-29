@@ -11,10 +11,10 @@ def descargar_imagen(bucket_nombre, objeto_nombre, destino_local):
     # Descarga el objeto a un archivo local
     blob.download_to_filename(destino_local)
 
-# Especifica el nombre del bucket, el nombre del objeto y la ubicación local
-bucket_nombre = 'documentos-ocr-lucho'
-objeto_nombre = 'img.jpeg'
-destino_local = '/home/tomas071922/API-GCP-DNI-Extract/Img/img.jpeg'
+# # Especifica el nombre del bucket, el nombre del objeto y la ubicación local
+# bucket_nombre = 'bk-upload-documents-ocr-api'
+# objeto_nombre = 'img.jpeg'
+# destino_local = '/home/lhmedina/Documentos/API-GCP-DNI-Extract/Img/img.jpeg'
 
-# Descarga la imagen desde el bucket
-descargar_imagen(bucket_nombre, objeto_nombre, destino_local)
+# # Descarga la imagen desde el bucket
+# descargar_imagen(bucket_nombre, objeto_nombre, destino_local)

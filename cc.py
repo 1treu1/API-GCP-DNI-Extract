@@ -1,38 +1,9 @@
-# Copyright 2020 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-# [START documentai_process_document]
-# [START documentai_process_document_processor_version]
 from typing import Optional
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai  # type: ignore
 from google.cloud import storage
 
-
-# TODO(developer): Uncomment these variables before running the sample.
-# project_id = "YOUR_PROJECT_ID"
-# location = "YOUR_PROCESSOR_LOCATION" # Format is "us" or "eu"
-# processor_id = "YOUR_PROCESSOR_ID" # Create processor before running sample
-# file_path = "/path/to/local/pdf"
-# mime_type = "application/pdf" # Refer to https://cloud.google.com/document-ai/docs/file-types for supported file types
-# field_mask = "text,entities,pages.pageNumber"  # Optional. The fields to return in the Document object.
-# processor_version_id = "YOUR_PROCESSOR_VERSION_ID" # Optional. Processor version to use
-
-
-
-def process_document_sample(
+def process_document_sample(blob,
     project_id: str,
     location: str,
     processor_id: str,
@@ -58,7 +29,7 @@ def process_document_sample(
         name = client.processor_path(project_id, location, processor_id)
 
     # Read the file into memory
-    with open(file_path, "rb") as image:
+    with blob.open("rb") as image:
         image_content = image.read()
  
 
@@ -91,32 +62,13 @@ def process_document_sample(
     # Read the text recognition output from the processor
     print("The document contains the following text:")
     doc_1 = document.entities
-    print(doc_1[0].mention_id," ",doc_1[0].type_, " ", doc_1[0].mention_text)
-    print(doc_1[1].mention_id," ",doc_1[1].type_, " ", doc_1[1].mention_text)
-    print(doc_1[2].mention_id," ",doc_1[2].type_, " ", doc_1[2].mention_text)
+    # print(doc_1[0].mention_id," ",doc_1[0].type_, " ", doc_1[0].mention_text)
+    # print(doc_1[1].mention_id," ",doc_1[1].type_, " ", doc_1[1].mention_text)
+    # print(doc_1[2].mention_id," ",doc_1[2].type_, " ", doc_1[2].mention_text)
 
-    return {
-        doc_1[0].type_ : doc_1[0].mention_text,
-        doc_1[1].type_ : doc_1[1].mention_text,
-        doc_1[2].type_ : doc_1[2].mention_text
-    }
-
-
-# # # # Reemplaza con tu información
-# bucket_nombre = 'documentos-ocr-lucho'
-# objeto_nombre = 'img.jpeg'
-# destino_local = '/home/tomas071922/API-GCP-DNI-Extract/Img/img.jpeg'
-
-# # # Descarga la imagen desde el bucket
-# descargar_imagen(bucket_nombre, objeto_nombre, destino_local)
-
-# process_document_sample(
-#   project_id="659531251163",
-#   location="us",
-#   processor_id="33b259122f65c043",
-#   file_path="/home/tomas071922/API-GCP-DNI-Extract/Img/img.jpeg",
-#   mime_type="image/jpeg"
-# )
-
-
-
+    return doc_1
+    # {
+    #     doc_1[0].type_: doc_1[0].confidence,
+    #     doc_1[1].type_: doc_1[1].confidence,
+    #     doc_1[2].type_: doc_1[2].confidence
+    # }
